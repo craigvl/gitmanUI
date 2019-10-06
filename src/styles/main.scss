@@ -1,0 +1,1092 @@
+@import '~reset-css/reset.css';
+@import "theme";
+
+$footerHeight: 32px;
+$dark: #280911;
+$highlight: #E26058;
+$border: #E8EBEC;
+
+
+html {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 18px;
+  color: $dark;
+}
+
+h1 {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 1.8rem;
+}
+
+.container {
+  max-width: 85%;
+  margin: 0 auto;
+}
+
+.el-tag-net {
+  color: #409eff;
+  text-transform: capitalize;
+  // font-weight: bold; 
+}
+
+.badge-hint {
+  cursor: pointer;
+}
+
+// .el-badge__content--info {
+//   background-color: #878d99 !important
+// }
+
+.el-tag-single {
+  margin-right: 0px !important
+}
+
+.el-tag {
+  margin-right: 5px
+}
+
+.section {
+  padding: 1rem 0;
+}
+
+// GM Header
+.gm-header {
+  background: $dark;
+  color: white;
+  display: flex;
+  height: 92px;
+
+  &__logo {
+    flex: 0 0 20%;
+    background: url(assets/logo.svg) (10px center)/contain no-repeat;
+    position: relative;
+    top: 10px;
+  }
+
+  &__content {
+    flex: 0 1 100%;
+  }
+
+  &__user {
+    flex: 0 0 20%;
+    text-align: right;
+    margin-right: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    cursor: pointer;
+  }
+}
+
+// Triple item
+.triple-item {
+  display: flex;
+  align-items: center;
+  height: 100%;
+
+  &__item {
+    flex: 0 1 100%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    align-self: stretch;
+    justify-content: center;
+    border-bottom: 4px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: white;
+    text-decoration: none;
+
+    &:hover {
+      border-color: lighten($highlight, 10%);
+    }
+
+    &.router-link-active, &--active {
+      color: $highlight;
+      border-color: $highlight;
+    }
+  }
+}
+
+#about {
+  border: none;
+}
+
+// Circle item
+.circle-item {
+  display: flex;
+  align-items: center;
+  &__circle {
+    width: 30px;
+    height: 30px;
+    background: white 50%/contain no-repeat;
+    border-radius: 100%;
+  }
+  &__text {
+    font-size: 0.85rem;
+    padding-left: 0.5rem;
+    color: white;
+  }
+}
+
+// Repo item
+.repo-item {
+  display: flex;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid $border;
+  justify-content: space-between;
+
+  &__details {
+    .el-tag {
+      margin-right: 1rem;
+    }
+  }
+}
+
+// Logo large
+.logo-large {
+  width: 271px;
+  height: 396px;
+  background: url(assets/logo-large.svg) 50%/contain no-repeat;
+}
+
+.gm-footer {
+  height: $footerHeight;
+  background-color: $dark;
+  width: 100%;
+
+  &__content {
+    padding-top: 10px;
+    font-size: 12px;
+    text-align: center;
+  }
+}
+
+.container.section {
+  min-height: 500px;
+}
+
+.error-login {
+  white-space: unset !important;
+}
+
+.button-login {
+  width: 441px;
+  height: 99px;
+  background: url(assets/button-login.svg) 50%/contain no-repeat;
+  font-size: 0px;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+.login-container {
+  justify-content: center;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .logo-large {
+    margin-bottom: 2rem;
+  }
+}
+
+// Craigs styles
+
+.modal-mask {
+  position: fixed;
+  z-index: 9998;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, .5);
+  display: table;
+  transition: opacity .3s ease;
+}
+
+.modal-wrapper {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.modal-container-large {
+  width: 700px;
+  margin: 0px auto;
+  font-size: 12px;
+  padding: 20px 30px;
+  background-color: #fff;
+  border-radius: 2px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
+  transition: all .3s ease;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+code {
+  font-family: monospace;
+  font-size: 11px !important;
+  padding: 10px !important;
+}
+
+.modal-container-small {
+  margin: 0px auto;
+  width: 300px;
+  font-size: 12px;
+  padding: 20px 30px;
+  background-color: #fff;
+  border-radius: 2px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
+  transition: all .3s ease;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+.modal-header h3 {
+  margin-top: 0;
+  color: #42b983;
+}
+
+.modal-body {
+  margin: 20px 0;
+}
+
+.modal-default-button {
+  float: right;
+}
+
+/*
+ * The following styles are auto-applied to elements with
+ * transition="modal" when their visibility is toggled
+ * by Vue.js.
+ *
+ * You can easily play with the modal transition by editing
+ * these styles.
+ */
+
+.modal-enter {
+  opacity: 0;
+}
+
+.modal-leave-active {
+  opacity: 0;
+}
+
+.modal-enter .modal-container,
+.modal-leave-active .modal-container {
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
+}
+
+.tip {
+  padding: 12px 24px 12px 30px;
+  margin: 2em 0;
+  height: 50px;
+  border-left: 4px solid #f66;
+  background-color: #f9f9f9;
+  position: relative;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.125);
+}
+
+.tip:before {
+  position: absolute;
+  top: 14px;
+  left: -12px;
+  color: #fff;
+  content: "!";
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  text-align: center;
+  line-height: 20px;
+  font-weight: bold;
+  font-family: 'Dosis', 'Source Sans Pro', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 14px;
+}
+
+.tip-small
+{
+  font-size: 12px;
+  padding: 12px 24px 12px 30px;
+  //border-left: 4px solid #f66;
+  background-color: #f9f9f9;
+  position: relative;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.125);
+}
+
+.tip-small:before {
+  position: absolute;
+  top: 9px;
+  left: -12px;
+  color: #fff;
+  //content: "!";
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  text-align: center;
+  line-height: 20px;
+  font-weight: bold;
+  font-family: 'Dosis', 'Source Sans Pro', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 14px;
+}
+
+.tip-how-to {
+    padding: 8px 16px;
+    border-radius: 4px;
+    border-left: 5px solid #E26058;
+    margin: 20px 0;
+    font-size: 14px;
+    color: black;
+    line-height: 1.5em;
+}
+
+//Issue Cards
+
+.text {
+  font-size: 14px;
+}
+
+.item {
+ float: right;
+}
+
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: "";
+}
+.clearfix:after {
+  clear: both
+}
+
+.box-card {
+  position: relative;
+  width: 100%;
+  margin-bottom: 30px;
+  border-top-width: 2px;
+}
+
+.card-button {
+  float: right;
+  padding: 3px 0;
+
+}
+
+//random
+h3 {
+  display: block;
+  font-size: 1.17em;
+  -webkit-margin-before: 1em;
+  -webkit-margin-after: 1em;
+  -webkit-margin-start: 0px;
+  -webkit-margin-end: 0px;
+}
+
+.small-bold {
+ font-weight: bold;
+ font-size: 12px;
+}
+
+.bold {
+ font-weight: bold;
+ font-size: 12px;
+} 
+
+.bold-how-to {
+  font-weight: bold;
+ } 
+
+//repo cards
+
+.card-button-repo {
+  float: right;
+  margin-right: 0.4rem;
+  margin-top: -0.4rem;
+}
+
+.refresh-button {
+  float: right;
+  margin-left:5px;
+  cursor: pointer;
+}
+
+.box-card-repo {
+  width: 100%;
+  padding: 10px 2px 10px 2px;
+  margin-bottom: 30px;
+}
+
+.float-right {
+  float: right;
+}
+
+.float-left {
+  float: left;
+}
+
+.wallet-text {
+  font-size: 13px;
+}
+
+.el-select-full {
+  display: inline;
+}
+
+.el-select-dropdown {
+  z-index: 9999 !important;
+}
+
+.bottom-pad-medium {
+  padding-bottom: 20px;
+}
+
+.top-pad-5 {
+  padding-top: 5px;
+}
+
+.right-pad-5 {
+  padding-right: 5px;
+}
+
+.margin-left-3 {
+  margin-left: 3px;
+}
+
+.left-pad-5 {
+  padding-left: 5px;
+}
+
+.bottom-pad-xs {
+  padding-bottom: 5px;
+}
+
+.top-margin-medium {
+  margin-top:10px;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.pad-deposit-spinner {
+  padding-bottom: 20px;
+}
+
+.test-network {
+  width:280px;
+  text-align: center;
+  font-size: 14px;
+  color: black;
+  padding: 10px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.rinkeby-width {
+  width: 40%;
+}
+
+.telegram {
+  height:20px;
+  margin-left: 35px;
+  vertical-align: middle;  
+  text-align: center;
+
+}
+
+.youtube {
+  height:18px;
+  margin-left: 32px;
+  vertical-align: middle;  
+  text-align: center;
+
+}
+
+.gitbox {
+  width: 75%;
+}
+
+.depositbox {
+  width: 55%;
+}
+
+.el-dropdown-link {
+  cursor: pointer;
+  font-size: 18px;
+  color: #E26058;
+}
+
+.requiredmessage {
+  display: block;
+  color: #f57f6c;
+  font-size: 12px;
+}
+
+a {
+  color: rgb(252, 107, 99);
+  text-decoration: none;
+}
+
+.el-row {
+  margin-bottom: 20px;
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+.el-col {
+  border-radius: 4px;
+}
+
+.card-action-footer {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
+  text-align: center;
+
+}
+
+.repo-action-footer {
+  padding-top: 20px;
+  bottom: 10px;
+  position: block;
+  text-align: center;
+}
+
+
+.tiny-text {
+  font-size: 10px;
+  text-align: center;
+  margin-top: 5px;
+  color: #707070;
+
+}
+
+.medium-text {
+  font-size: 12px;
+  text-align: center;
+}
+
+.large-text {
+  font-size: 14px;
+  text-align: center;
+}
+
+.xlarge-text {
+  font-size: 18px;
+  text-align: center;
+}
+
+.issue-title {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.issue-description {
+  height: 2.5em;
+}
+
+.earn-padding {
+  padding-top:30px;
+}
+
+@keyframes animate {
+  0% {
+   transform:scaleX(0);
+   transform-origin: left;
+  }
+  50%
+  {
+    transform:scaleX(1);
+    transform-origin: left;
+  }
+  50.1%
+  {
+    transform:scaleX(1);
+    transform-origin: right;
+  }
+  100%
+  {
+    transform:scaleX(0);
+    transform-origin: right;
+  }
+} 
+
+.badge-inline
+{
+  padding-left: 5px
+}
+
+.card-red-top {
+  position: relative;
+  border-radius: 4px;
+  border-top: 5px solid #E26058;
+}
+
+.card-section {
+   padding: 10px 20px !important;
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
+}
+
+.card-section .card-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/*
+.card-section .card-text:hover{
+  overflow: visible;
+  white-space: normal;
+  height:auto;
+}
+*/
+/*
+.card-section:hover{
+  overflow: visible;
+  white-space: normal;
+  height:auto;
+}
+*/
+.card-text .text-repo-big {
+  width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-text .text-repo-big:hover{
+  overflow: visible;
+  white-space: normal;
+  height:auto;  /* just added this line */
+}
+
+.divider {
+  border-top: 1px solid #e6ebf5;
+}
+
+.card-primary {
+  position: relative;
+  border-radius: 4px;
+  border-top: 5px solid rgba(64, 158, 255, 0.2);
+}
+
+.card-info {
+  position: relative;
+  border-radius: 4px;
+  border-top: 5px solid hsla(220,4%,58%,.1);
+}
+
+.card-success {
+  position: relative;
+  border-radius: 4px;
+  border-top: 5px solid rgba(103,194,58,.2)
+}
+
+.card-danger {
+  position: relative;
+  border-radius: 4px;
+  border-top: 5px solid hsla(0,87%,69%,.2)
+}
+
+.card-warning {
+  position: relative;
+  border-radius: 4px;
+  border-top: 5px solid rgba(230,162,60,.2)
+}
+
+.card-small {
+  height: 180px;
+}
+
+.card-big {
+  height: 320px;
+}
+
+// .card-warning-progress {
+
+//   position: relative;
+//   height: 290px;
+//   border-radius: 4px;
+//   border-top: 0px solid rgba(230,162,60,.2);
+//   transform:rotate(0deg);
+//   box-sizing: border-box;
+// }
+
+
+// .card-warning:before
+// {
+
+//   height: 280px;
+//   content: '';
+//   z-index: 1;
+//   position: absolute;
+//   width:100%;
+//   height: 5px;
+//   background: rgba(235, 158, 5, 0.2);;
+//   animation: animate 6s linear infinite;
+//   overflow: hidden;
+
+// }
+
+
+
+
+
+.dev-count {
+  position: absolute;
+  bottom: 5px;
+  text-align: center;
+  width: 100%;
+  left: 0px;
+}
+
+.text-center
+{
+  text-align: center;
+}
+
+.tooltip-inner {
+  border: 1px solid #e6ebf5;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  margin: 10px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  width: 250px;
+  padding: 0.25rem 0.5rem;
+  color: #2d2f33;
+  text-align: center;
+  border-radius: 0.25rem;
+}
+
+.tooltip {
+  position: absolute;
+  z-index: 1070;
+  display: block;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.5;
+  text-align: left;
+  text-align: start;
+  text-decoration: none;
+  text-shadow: none;
+  text-transform: none;
+  letter-spacing: normal;
+  word-break: normal;
+  word-spacing: normal;
+  white-space: normal;
+  line-break: auto;
+  font-size: 0.875rem;
+  word-wrap: break-word;
+  opacity: 0;
+}
+
+.tooltip.show {
+  opacity: 1;
+}
+
+.tooltip .arrow {
+  position: absolute;
+  display: block;
+  width: 0.8rem;
+  height: 0.4rem;
+}
+
+.tooltip .arrow::before {
+  position: absolute;
+  content: "";
+  border-color: transparent;
+  border-style: solid;
+}
+
+.bs-tooltip-top, .bs-tooltip-auto[x-placement^="top"] {
+  padding: 0.4rem 0;
+}
+
+.bs-tooltip-top .arrow, .bs-tooltip-auto[x-placement^="top"] .arrow {
+  bottom: 0;
+}
+
+.bs-tooltip-top .arrow::before, .bs-tooltip-auto[x-placement^="top"] .arrow::before {
+  top: 0;
+  border-width: 0.4rem 0.4rem 0;
+  border-top-color: #000;
+}
+
+.fade {
+  transition: opacity 0.15s linear;
+}
+
+@media screen and (prefers-reduced-motion: reduce) {
+  .fade {
+    transition: none;
+  }
+}
+
+.fade:not(.show) {
+  opacity: 0;
+}
+
+.earn-eth-padding {
+  margin-right: 20px;
+} 
+
+.post-job-button-width {
+  width: 130px;
+}
+
+.manual-transfer-button-width {
+  width: 160px;
+}
+
+.welcome-heading {
+  font-size: 35px;
+}
+
+.stepper-heading {
+  font-size: 25px;
+}
+
+.modal-heading {
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.modal-description {
+  font-size: 12px;
+  text-align: center;
+  margin-top: 1em;
+}
+
+.welcome-margin {
+  margin-top: 80px;
+}
+
+.gm-header-welcome {
+  background: $dark;
+  color: white;
+  height: 150px;
+  display:block;
+  margin:auto;
+  background: url(assets/logo.svg) (10px center)/contain no-repeat;
+  position: relative;
+  top: 30px;
+  left:44%;
+}
+
+.gm-user-welcome{
+    flex: 0 0 20%;
+    padding-left: 40%;
+    margin-right: 20px;
+    align-items: center;
+    justify-content: flex-end;
+    cursor: pointer;
+    color: black;
+}
+
+.circle-item-welcome {
+  display: flex;
+  align-items: center;
+  &__circle {
+    width: 30px;
+    height: 30px;
+    background: white 50%/contain no-repeat;
+    border-radius: 100%;
+  }
+  &__text {
+    font-size: 0.85rem;
+    padding-left: 0.5rem;
+    color: black;
+  }
+}
+
+.eth-dev-wallet{
+  width: 50%;
+  margin-left: 0px;
+}
+
+.pad-right {
+  padding-right: 1rem;
+}
+
+/** Fix for step heading not centering under step number. **/
+.is-horizontal .el-step__title {
+  position: relative;
+  right: 0.6rem;
+}
+
+.filter-switch {
+  padding-top: 10px;
+}
+
+.section-heading {
+  font-weight: bold;
+}
+
+.section-info {
+  font-size: 0.8em;
+  color: #707070;
+  margin-top: 5px;
+}
+
+.el-tag--warning > a{
+  color: inherit;
+}
+
+.el-tag--success > a{
+  color: inherit;
+}
+
+.el-badge--info {
+  color: inherit;
+}
+
+.eth-balance > a
+{
+  font-size: 1.15em;
+  font-weight: bold;
+  color: black !important; 
+  vertical-align: middle;
+}
+
+
+.card-text-muted {
+  font-size: 0.8em;
+  color: #707070
+}
+
+.text-repo {
+  font-size: 0.8em;
+  color: #707070;
+  padding-top: 5px;
+  margin-top: 5px;
+
+}
+
+.text-repo > svg {
+  font-size: inherit;
+  color: inherit;
+  margin-right: 5px;
+}
+
+.text-user {
+  font-size: 0.8em;
+  color: #707070;
+  padding-top: 5px;
+}
+
+.text-user > svg {
+  font-size: inherit;
+  color: inherit;
+  margin-right: 5px;
+}
+
+.snackbar__action {
+  font-size: 0.8em !important;
+}
+
+.snackbar__text {
+  font-size: 0.8em !important;
+}
+
+
+
+
+.text-repo-big {
+  vertical-align: baseline;
+  font-size: 1em;
+  color: black;
+  padding-top: 5px;
+}
+
+.text-repo-big > svg, a {
+  color: inherit;
+  margin-right: 5px;
+}
+
+
+
+.depositButton{
+  padding-top: 20px;
+}
+
+.privateLock {
+  padding-right: 5px;
+}
+
+.el-tooltip-wrapper {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+  border: none;
+}
+
+.gitCommands {
+  width: 700px;
+}
+
+.heading {
+  font-weight: bold;
+  font-size: 18px;
+  text-align: center;
+  margin-bottom: 14px;
+}
+
+.sub-heading {
+  font-weight: bold;
+  font-size: 16px;
+  margin-top: 14px;
+}
+
+.about-description {
+  font-weight: normal;
+  font-size: 14px;
+  text-align: left;
+  line-height: 2;
+}
+
+.deposit-description {
+  font-weight: normal;
+  font-size: 14px;
+  text-align: left;
+  line-height: 2;
+}
+
+pre code {
+  font-size: 10px;
+  background-color: #eee;
+  border: 1px solid #999;
+  display: block;
+  padding: 20px;
+}
+
+.networkHeadingWelcome {
+  margin: 20px;
+}
+
+.deposit-check-text {
+  font-size: 10px;
+  padding-top: 10px;
+}

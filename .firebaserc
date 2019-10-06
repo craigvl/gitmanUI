@@ -1,0 +1,6 @@
+{
+  "projects": {
+    "gitman-app": "gitman-app",
+    "default": "gitman-app"
+  }
+}
