@@ -180,6 +180,5 @@ fabric.properties
 !.vscode/extensions.json
 
 .browserslistrc
-.eslintrc.js
 .firebase/
 package-lock.json
