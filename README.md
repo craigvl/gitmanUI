@@ -1,6 +1,6 @@
-##### Gitman
+#### Gitman
 
-Compete Github issues and earn Ethereum.
+> Compete Github issues and earn Ethereum.
 
 Gitman is an application that makes the process of adding a reward to Github issues and sending the reward very easy.
  
