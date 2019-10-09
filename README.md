@@ -11,11 +11,15 @@ Gitman is an application that makes the process of adding a reward to Github iss
 
 Below is a link to the application:
 
-[Gitman](http://live.gitman.app)
+[Gitman app](https://live.gitman.app)
 
- and a link to a video of the app in action:
+ a link to a video of the app in action:
  
 [Gitman video](https://youtu.be/pw3AFkWl2qc)
+
+and a link to our website:
+
+[Gitman website](https://www.gitman.app/)
 
 ##### Running the UI code
 
