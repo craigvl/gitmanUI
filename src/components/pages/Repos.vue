@@ -248,13 +248,7 @@ export default {
       window.ethereum.enable().then(wallet => {
         const web3 = window.web3
         if (!web3) throw 'Metamask not working ... '
-
-        // update with current metamask values (MM refresh the page anyways on change...)
-        //- web3.currentProvider.connection.publicConfigStore.on('update', (data, currentNetwork) => {
-        //-   this.wallet = data.selectedAddress
-        //-   this.network = this.$web3Service.networks[data.networkVersion]
-        //-   this.loadingText = !this.loadingText ? `Found account ${this.wallet} on ${this.network} network, now preparing the transaction.` : this.loadingText
-        //- })
+        
         const [repositoryOwner, ..._] = this.issue.repositoryName.split('/')
         this.wallet = wallet
 
