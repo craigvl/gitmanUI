@@ -107,7 +107,8 @@ class CloudFunctionService {
   async fetchEthUSD () {
     if (!this.ethUSDRate) {
       const res = await this.firebaseFunctions.httpsCallable(`getUSD`)()
-      this.ethUSDRate = parseInt(JSON.parse(res.data)[0].price_usd, 10)
+      var result = JSON.parse(res.data)
+      this.ethUSDRate = parseInt(result.data.ETH.quote.USD.price)
     }
     return this.ethUSDRate
   }
