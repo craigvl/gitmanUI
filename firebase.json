@@ -29,6 +29,7 @@
     "rules": "storage.rules"
   },
   "functions": {
-
+    "predeploy": "npm run build",
+    "source": "."
   }
 }
