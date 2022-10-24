@@ -5,7 +5,7 @@ import 'firebase/functions'
 const firebaseApp = firebase.initializeApp(firebaseConfig)
 if (firebaseConfig.emulator) {
   console.warn(`using emulator on ${firebaseConfig.emulator}`)
-  firebaseApp.functions().useFunctionsEmulator(firebaseConfig.emulator)
+  firebaseApp.functions().useEmulator('localhost', 5000)
 }
 const database = firebase.database()
 const auth = firebase.auth()

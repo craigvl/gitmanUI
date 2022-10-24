@@ -1,137 +1,136 @@
 <template lang="pug">
-  section.body-section(v-loading.fullscreen.lock='loading' :element-loading-text="loadingText")
-    AppHeader
+section.body-section(v-loading.fullscreen.lock='loading' :element-loading-text="loadingText")
+  AppHeader
 
-    <!-- Start add issue modal -->
-    transition(name='modal')
-      div(class='modal-mask', v-if='showModal')
-        div(class='modal-wrapper')
-          div.modal-container-small
-            div(class='modal-header')
-              slot(name='header')
-                div(v-if="formMode !== 'sponsor'" class='modal-heading') Bounty an issue
-                div(v-if="formMode == 'sponsor'" class='modal-heading') Bounty an existing issue
-            div(v-if="formMode !== 'sponsor'" class='modal-description') By raising a bounty, GitMan creates an issue against your selected repository.
-            div(v-if="formMode === 'sponsor'" class='modal-description') By funding an existing issue, GitMan adds a bounty to the selected issue.
+  <!-- Start add issue modal -->
+  transition(name='modal')
+    div(class='modal-mask', v-if='showModal')
+      div(class='modal-wrapper')
+        div.modal-container-small
+          div(class='modal-header')
+            slot(name='header')
+              div(v-if="formMode !== 'sponsor'" class='modal-heading') Bounty an issue
+              div(v-if="formMode == 'sponsor'" class='modal-heading') Bounty an existing issue
+          div(v-if="formMode !== 'sponsor'" class='modal-description') By raising a bounty, GitMan creates an issue against your selected repository.
+          div(v-if="formMode === 'sponsor'" class='modal-description') By funding an existing issue, GitMan adds a bounty to the selected issue.
 
-            div(v-if="network" class='modal-description') The bounty for this issue will be set on the Ethereum
-            div(v-if="network" class='modal-description')
-              el-tag.el-tag-net(size="small") {{network !== 'main' ? network : 'main'}} network
-            div(v-if="network" class='modal-description') You can change the network via metamask if you wish
+          div(v-if="network" class='modal-description') The bounty for this issue will be set on the Ethereum
+          div(v-if="network" class='modal-description')
+            el-tag.el-tag-net(size="small") {{network !== 'main' ? network : 'main'}} network
+          div(v-if="network" class='modal-description') You can change the network via metamask if you wish
 
-            div(class='modal-body bottom-pad-medium')
-              slot(name='body')
-                div(v-if="formMode === 'create'").bottom-pad-medium
-                  span.requiredmessage(v-if="!$v.issue.name.required") *
-                  el-input(type='text', name='name', v-model='issue.name', placeholder='Title', @input="$v.issue.name.$touch()")
-                div(v-if="formMode === 'create'").bottom-pad-medium
-                  span.requiredmessage(v-if="!$v.issue.description.required") *
-                  el-input(type='textarea', name='description', v-model='issue.description', placeholder='Description', @input="$v.issue.description.$touch()")
+          div(class='modal-body bottom-pad-medium')
+            slot(name='body')
+              div(v-if="formMode === 'create'").bottom-pad-medium
+                span.requiredmessage(v-if="!$v.issue.name.required") *
+                el-input(type='text', name='name', v-model='issue.name', placeholder='Title', @input="$v.issue.name.$touch()")
+              div(v-if="formMode === 'create'").bottom-pad-medium
+                span.requiredmessage(v-if="!$v.issue.description.required") *
+                el-input(type='textarea', name='description', v-model='issue.description', placeholder='Description', @input="$v.issue.description.$touch()")
 
-                div(v-if="formMode === 'sponsor'")
-                  span.requiredmessage(v-if="repoIssues && repoIssues.length === 0") Sorry no issues available to sponsor or fund
-                  span.requiredmessage(v-if='!$v.issue.number.required') *
-                  el-select(:disabled='!repoIssues || repoIssues.length === 0', v-model='issue.number', :placeholder="!repoIssues || repoIssues.length == 0 ? 'Issues, loading ...' : 'Issue'", name='issueNumber' class='bottom-pad-medium full-width')
-                    el-option(
-                    v-for='item in repoIssues'
-                    :key='item.value'
-                    :label='item.label'
-                    :value='item.value')
-
-                span.requiredmessage(v-if='!$v.issue.branch.required') *
-                el-select(:disabled='!branches || branches.length === 0', v-model='issue.branch', :placeholder="!branches || branches.length == 0 ? 'Branches, loading ...' : 'Branch'", name='issueBranch' class='bottom-pad-medium full-width')
+              div(v-if="formMode === 'sponsor'")
+                span.requiredmessage(v-if="repoIssues && repoIssues.length === 0") Sorry no issues available to sponsor or fund
+                span.requiredmessage(v-if='!$v.issue.number.required') *
+                el-select(:disabled='!repoIssues || repoIssues.length === 0', v-model='issue.number', :placeholder="!repoIssues || repoIssues.length == 0 ? 'Issues, loading ...' : 'Issue'", name='issueNumber' class='bottom-pad-medium full-width')
                   el-option(
-                  v-for='item in branches'
+                  v-for='item in repoIssues'
                   :key='item.value'
                   :label='item.label'
                   :value='item.value')
-                span.requiredmessage(v-if='!$v.issue.bounty.required') *
-                el-select(v-model='issue.bounty', placeholder='Bounty', name='issueBounty', class="full-width")
-                  el-option(
-                  v-for='item in formatedRewardAmounts'
-                  :key='item.value'
-                  :label='item.label'
-                  :value='item.value')
-                div.tiny-text
-                  span(v-if="issue.bounty") fee: {{formatAmount(issue.bounty * 0.05)}}
-                  br
-                  span(v-if="issue.bounty") reward: {{formatAmount(issue.bounty * 0.85)}}
 
-            div(class='modal-footer')
-              slot(name='footer')
-                el-button(
-                v-if="formMode !== 'sponsor'"
-                type='primary',
-                :disabled='$v.$invalid'
-                @click='addIssue()') Bounty Issue
+              span.requiredmessage(v-if='!$v.issue.branch.required') *
+              el-select(:disabled='!branches || branches.length === 0', v-model='issue.branch', :placeholder="!branches || branches.length == 0 ? 'Branches, loading ...' : 'Branch'", name='issueBranch' class='bottom-pad-medium full-width')
+                el-option(
+                v-for='item in branches'
+                :key='item.value'
+                :label='item.label'
+                :value='item.value')
+              span.requiredmessage(v-if='!$v.issue.bounty.required') *
+              el-select(v-model='issue.bounty', placeholder='Bounty', name='issueBounty', class="full-width")
+                el-option(
+                v-for='item in formatedRewardAmounts'
+                :key='item.value'
+                :label='item.label'
+                :value='item.value')
+              div.tiny-text
+                span(v-if="issue.bounty") fee: {{formatAmount(issue.bounty * 0.05)}}
+                br
+                span(v-if="issue.bounty") reward: {{formatAmount(issue.bounty * 0.85)}}
 
-                el-button(
-                v-if="formMode === 'sponsor'"
-                type='primary',
-                :disabled='$v.$invalid'
-                @click='addIssue()') Fund Issue
+          div(class='modal-footer')
+            slot(name='footer')
+              el-button(
+              v-if="formMode !== 'sponsor'"
+              type='primary',
+              :disabled='$v.$invalid'
+              @click='addIssue()') Bounty Issue
 
-                el-button(
-                type='secondary',
-                @click='closeModal()',
-                class="float-right") Close
+              el-button(
+              v-if="formMode === 'sponsor'"
+              type='primary',
+              :disabled='$v.$invalid'
+              @click='addIssue()') Fund Issue
 
-    <!-- End add issue modal -->
+              el-button(
+              type='secondary',
+              @click='closeModal()',
+              class="float-right") Close
 
-    section.container.section
-      sidebar
-        help-donator
+  <!-- End add issue modal -->
 
-      section-bar(v-if="registeredOwnedRepos && registeredOwnedRepos.length > 0" title="Your registered repositories" subtitle="Repositories enabled for you or others to post bounties on them")
+  section.container.section
+    sidebar
+      help-donator
 
-      el-row(:gutter=20 v-if='registeredOwnedRepos && registeredOwnedRepos.length > 0')
-        el-col(v-for='repo in registeredOwnedRepos' :key="repo.name" :span="8")
-          repo-box(
-          :repo="repo"
-          :can-create="repo.hasHook"
-          :can-sponsor="!repo.private && repo.hasHook"
-          :can-enable="!repo.hasHook"
-          :metamask="metamaskAvailable"
-          :isOwner="true"
-          v-on:enable="enableRepository(repo.name)"
-          v-on:disable="disableRepository(repo.name)"
-          v-on:create-issue="openModal('create', repo.name)"
-          v-on:sponsor-issue="openModal('sponsor', repo.name)")
+    section-bar(v-if="registeredOwnedRepos && registeredOwnedRepos.length > 0" title="Your registered repositories" subtitle="Repositories enabled for you or others to post bounties on them")
 
-      section-bar(ref="disabled-repos" id="disabled-repos" v-if="disabledOwnedRepos && disabledOwnedRepos.length > 0" anchor="disabled-repos" title="Your available repositories" subtitle="Repositories available for you to enable, so that you or others can post bounties on them")
+    el-row(:gutter=20 v-if='registeredOwnedRepos && registeredOwnedRepos.length > 0')
+      el-col(v-for='repo in registeredOwnedRepos' :key="repo.name" :span="8")
+        repo-box(
+        :repo="repo"
+        :can-create="repo.hasHook"
+        :can-sponsor="!repo.private && repo.hasHook"
+        :can-enable="!repo.hasHook"
+        :metamask="metamaskAvailable"
+        :isOwner="true"
+        v-on:enable="enableRepository(repo.name)"
+        v-on:disable="disableRepository(repo.name)"
+        v-on:create-issue="openModal('create', repo.name)"
+        v-on:sponsor-issue="openModal('sponsor', repo.name)")
 
-      el-row(:gutter=20 v-if='disabledOwnedRepos && disabledOwnedRepos.length > 0')
-        el-col(v-for='repo in disabledOwnedRepos' :key="repo.name" :span="8")
-          repo-box(:id="'repo-'+repo.id"
-          :repo="repo"
-          :can-create="repo.hasHook"
-          :can-sponsor="!repo.private && repo.hasHook"
-          :can-enable="!repo.hasHook"
-          :metamask="metamaskAvailable"
-          :isOwner="true"
-          v-on:enable="enableRepository(repo.name)"
-          v-on:disable="disableRepository(repo.name)"
-          v-on:create-issue="openModal('create', repo.name)"
-          v-on:sponsor-issue="openModal('sponsor', repo.name)")
+    section-bar(ref="disabled-repos" id="disabled-repos" v-if="disabledOwnedRepos && disabledOwnedRepos.length > 0" anchor="disabled-repos" title="Your available repositories" subtitle="Repositories available for you to enable, so that you or others can post bounties on them")
 
-      section-bar(title="Repositories available for sponsoring" subtitle="Enabled repositories available for you to sponsor issues on them", v-model="searchSponsorRepo")
+    el-row(:gutter=20 v-if='disabledOwnedRepos && disabledOwnedRepos.length > 0')
+      el-col(v-for='repo in disabledOwnedRepos' :key="repo.name" :span="8")
+        repo-box(:id="'repo-'+repo.id"
+        :repo="repo"
+        :can-create="repo.hasHook"
+        :can-sponsor="!repo.private && repo.hasHook"
+        :can-enable="!repo.hasHook"
+        :metamask="metamaskAvailable"
+        :isOwner="true"
+        v-on:enable="enableRepository(repo.name)"
+        v-on:disable="disableRepository(repo.name)"
+        v-on:create-issue="openModal('create', repo.name)"
+        v-on:sponsor-issue="openModal('sponsor', repo.name)")
 
-      el-row(:gutter=20)
-        el-col(v-for='repo in sponsoringRepos' :key="repo.name" :span="8")
-          repo-box(v-if="repo.canCreateIssue ||  !repo.private" :repo="repo" :can-enable="false" :can-create="repo.canCreateIssue" :can-sponsor="!repo.private" :metamask="metamaskAvailable" :isOwner="false" v-on:create-issue="openModal('create', repo.name)" v-on:sponsor-issue="openModal('sponsor', repo.name)")
+    section-bar(title="Repositories available for sponsoring" subtitle="Enabled repositories available for you to sponsor issues on them", v-model="searchSponsorRepo")
 
-    AppFooter
+    el-row(:gutter=20 )
+      el-col(v-for='repo in sponsoringRepos' :key="repo.name" :span="8")
+        repo-box(v-if="repo.canCreateIssue ||  !repo.private" :repo="repo" :can-enable="false" :can-create="repo.canCreateIssue" :can-sponsor="!repo.private" :metamask="metamaskAvailable" :isOwner="false" v-on:create-issue="openModal('create', repo.name)" v-on:sponsor-issue="openModal('sponsor', repo.name)")
+
+  AppFooter
 </template>
 
 <script>
-import { auth, database } from '@/firebase'
+import { auth } from '@/firebase'
 import AppHeader from '@/components/layout/Header'
 import AppFooter from '@/components/layout/Footer'
 import RepoBox from '@/components/core/RepoBox'
 import SectionBar from '@/components/core/SectionBar'
 
 import { required } from 'vuelidate/lib/validators'
-import Web3 from 'web3'
 import user from '@/mixins/user'
 import entities from '@/mixins/entities'
 import Sidebar from '@/components/layout/Sidebar'
@@ -215,14 +214,13 @@ export default {
         .then(_ => { this.loading = false })
         .catch(this.handleError)
     },
-    // getJobsForIssue (issueId) {
-    //   return this.$parent.jobs
-    //     .map(_ => Object.keys(_).filter(k => k != '.key').map(k => _[k]))
-    //     .reduce((a, c) => a.concat(c), [])
-    //     .filter(_ => _.issueId === issueId)
-    // },
+    getJobsForIssue (issueId) {
+      return this.$parent.jobs
+        .map(_ => Object.keys(_).filter(k => k !== '.key').map(k => _[k]))
+        .reduce((a, c) => a.concat(c), [])
+        .filter(_ => _.issueId === issueId)
+    },
     async addIssue () {
-      // validate
       if (this.$v.$invalid) {
         this.$snack.danger('Invalid parameters')
         return
@@ -245,82 +243,32 @@ export default {
       // create Web Hook
       this.loading = true
 
-      window.ethereum.enable().then(wallet => {
-        const web3 = window.web3
-        if (!web3) throw 'Metamask not working ... '
-        
-        const [repositoryOwner, ..._] = this.issue.repositoryName.split('/')
-        this.wallet = wallet
+      const [repositoryOwner] = this.issue.repositoryName.split('/')
 
-        // create hook only the donator/creator is the owner of the repository
-        const createHookPromise = repositoryOwner === this.user.gitUserName ? this.$cloudFunction.registerRepo(this.issue.repositoryName) : Promise.resolve()
+      // create hook only the donator/creator is the owner of the repository
+      const createHookPromise = repositoryOwner === this.user.gitUserName ? this.$cloudFunction.registerRepo(this.issue.repositoryName) : Promise.resolve()
 
-        createHookPromise.then(_ => {
-          // network before creating the issue, useful for polling later on
-          this.$web3Service.getCurrentNetwork(web3).then(issueNetwork => {
-            const issuePromise = !this.issue.number
-              ? this.$cloudFunction.addIssue(this.user.key, this.issue.repositoryName, this.issue.branch, this.issue.name, this.issue.description, issueNetwork)
-              : this.$cloudFunction.sponsorIssue(this.user.key, this.issue.repositoryName, this.issue.branch, this.issue.number, issueNetwork)
+      createHookPromise.then(_ => {
+        const issuePromise = !this.issue.number
+          ? this.$cloudFunction.addIssue(this.user.key, this.issue.repositoryName, this.issue.branch, this.issue.name, this.issue.description)
+          : this.$cloudFunction.sponsorIssue(this.user.key, this.issue.repositoryName, this.issue.branch, this.issue.number)
 
-            issuePromise.then(data => {
-              const ownerId = data.ownerId
-              const repositoryId = data.repositoryId
-              const issueId = data.id
-              const issueKey = data.key
+        issuePromise.then(async data => {
+          // const ownerId = data.ownerId
+          // const repositoryId = data.repositoryId
+          // const issueId = data.id
+          const issueKey = data.key
 
-              // This code is called when the sendCreateIssue receives the transaction hash, .on('transactionHash'
-              const transactionHashCallback = async transaction => {
-                this.loadingText = `Transaction ${transaction} has been sent, waiting for confirmation.`
-                await this.$cloudFunction.startFundIssue(issueKey, transaction, issueNetwork)
-                this.loading = false
-                this.loadingText = null
-                this.$snack.success({
-                  text: 'Issue funding, this can take a little while',
-                  button: 'Ok'
-                  //    action: () => this.$router.push({ name: 'issues', params: { issueId } })//this.$router.push({ name: 'issues', params: { issue: issueKey } })
-                })
-              }
+          // This code is called when the sendCreateIssue receives the transaction hash, .on('transactionHash'
 
-              // TODO: This method has been commented out as it seems that that the .on('confirmation') inside the sendCreateIssue never fires, need to investigate
-              // if we fix this it will allow us to be able to update firebase without waiting for c#
-
-              const confirmCallBack = async transaction => {
-                // this.loading = false
-                // this.loadingText = null
-                //  this.$snack.success({
-                //    text: 'Issue funded',
-                //    button: 'View Issue',
-                //    action: () => this.$router.push({ name: 'issues', params: { issueId } })//this.$router.push({ name: 'issues', params: { issue: issueKey } })
-                //  })
-                // contract ${contractAddress} has been created.`
-                // NEED TO DO BELOW
-
-                // write back to FB
-                //   this.$cloudFunction.completeFundIssue(issueKey, contractAddress, network).then(() => {
-                //   }).catch(writeError => {
-                //     // TODO: redirect to issue page
-                //     // 0) stamp issue as 'Failed' o something
-                //     // 1) display the 'Failed' issues for the owner user ONLY
-                //     // 2) diplsay a retry button on 'Failed.'
-                //     // 3) On click, button should do retry => flow from "window.ethereum.enable().then(_ => { ... "
-                //     this.loading = false
-                //     this.$snack.danger(writeError.message)
-                //   })
-              }
-
-              const errorCallback = error => {
-                this.handleError(error)
-              }
-
-              // TODO: check balance
-              this.$web3Service.sendCreateIssue(web3, ownerId, repositoryId, issueId, this.issue.bounty.toString(), transactionHashCallback, confirmCallBack, errorCallback).then(data => {
-              }).catch(err => this.handleError(err))
-            }).catch(err => this.handleError(err))
-          }).catch(err => this.handleError(err))
-        }).catch(err => this.handleError(err))
-      }).catch(err => {
-        console.dir(err)
-        this.handleError(err)
+          await this.$cloudFunction.startFundIssue(issueKey)
+          this.loading = false
+          this.loadingText = null
+          this.$snack.success({
+            text: 'Issue funded',
+            button: 'Ok'
+          })
+        })
       })
     },
     repoUrl (repositoryName) {
@@ -347,8 +295,6 @@ export default {
       this.issue.number = null
       this.repoIssues = null
       this.branches = []
-      this.network = await this.$web3Service.getCurrentNetwork(window.web3)
-      this.wallet = await this.$web3Service.getCurrentAccount(window.web3)
 
       // Get all branches for repo
       this.$cloudFunction.getBranches(repositoryName).then(branches => {
@@ -390,22 +336,6 @@ export default {
   },
 
   created () {
-    // Modern dapp browsers...
-    if (window.ethereum) {
-      window.web3 = new Web3(window.ethereum)
-      this.metamaskAvailable = true
-    } else if (window.web3) { // old browsers
-      window.web3 = new Web3(window.web3.currentProvider)
-      this.metamaskAvailable = true
-    } else { // non dapp browsers
-      this.metamaskAvailable = false
-      console.warn('Non-Ethereum browser detected. You should consider trying MetaMask!')
-    }
-    // if (window.web3 && !this.$web3Service.networks[window.web3.currentProvider.networkVersion]) {
-    //   this.metamaskAvailable = false
-    //   console.warn('Non-Ethereum browser detected. You should consider trying MetaMask!')
-    // }
-    this.$cloudFunction.fetchEthUSD().then(_ => { this.ethUSD = _ })
   },
   computed: {
     formatedRewardAmounts () {

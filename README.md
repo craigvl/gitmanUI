@@ -35,7 +35,7 @@ We have also documented the API so others can consume it and create their own UI
 
 At the moment Gitman takes a 3% fee when a bounty is added to an issue this is to cover the running costs
 
-##### Chat to us 
+##### Chat to us
 
 We would love to chat to anyone about this project via the telegram link below:
 

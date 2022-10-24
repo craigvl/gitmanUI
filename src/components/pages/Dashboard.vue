@@ -1,6 +1,9 @@
+<!-- eslint-disable vue/no-side-effects-in-computed-properties -->
+<!-- eslint-disable vue/return-in-computed-property -->
+<!-- eslint-disable vue/no-side-effects-in-computed-properties -->
 <template lang="pug">
 
-  section.body-section(v-loading.fullscreen.lock='loading' :element-loading-text="loadingText")
+section.body-section(v-loading.fullscreen.lock='loading' :element-loading-text="loadingText")
     AppHeader
 
     section.container.section
@@ -45,7 +48,7 @@
 </template>
 
 <script>
-import { auth, database } from '@/firebase'
+import { auth } from '@/firebase'
 import AppHeader from '@/components/layout/Header'
 import AppFooter from '@/components/layout/Footer'
 
@@ -55,7 +58,6 @@ import IssueBox from '@/components/core/IssueBox'
 import Web3 from 'web3'
 import user from '@/mixins/user'
 import entities from '@/mixins/entities'
-import { pipe } from '@/utils'
 
 export default {
   name: 'repos',
@@ -127,7 +129,7 @@ export default {
     //   this.metamaskAvailable = false
     //   console.warn('Non-Ethereum browser detected. You should consider trying MetaMask!')
     // }
-    this.$cloudFunction.fetchEthUSD().then(_ => { this.ethUSD = _ })
+    // this.$cloudFunction.fetchEthUSD().then(_ => { this.ethUSD = _ })
   },
   computed: {
     contributingIssues () {
@@ -144,11 +146,12 @@ export default {
         .filter(_ => this.$admins.indexOf(this.user.email) >= 0 || _ > 0.01)
         .map(_ => ({ value: _, label: this.formatAmount(_) }))
     },
-    openGitCommand (issue, job) {
+    openGitCommand (job) {
       const { branchUrl, repositoryName } = job.job
       this.gitCommandTextClone = `git clone -b ${branchUrl.split('/')[2]} https://github.com/${this.user.gitUserName}/${repositoryName.split('/')[1]}.git`
       this.gitCommandTextGetBranch = `git fetch && git checkout ${branchUrl.split('/')[2]}`
       this.showGitCommandModal = true
+      return true
     }
 
   }

@@ -1,5 +1,5 @@
 <template lang="pug">
-  el-card.box-card.card-big.d-flex.flex-column.justify-content-between(v-loading.fullscreen.lock='loading' :element-loading-text="loadingText" :body-style="{ padding: '0px' }" :class="issue.contractNetwork === 'main' ? 'card-'+stateColor : 'card-primary'")
+el-card.box-card.card-big.d-flex.flex-column.justify-content-between(v-loading.fullscreen.lock='loading' :element-loading-text="loadingText" :body-style="{ padding: '0px' }" :class="issue.contractNetwork === 'main' ? 'card-'+stateColor : 'card-primary'")
     div(slot='header')
       el-tooltip(v-if="issue.contractNetwork !== 'main'" effect="dark" content="The bounty for this issue is on the ethereum rinkeby network, which means no actual money will be awarded upon completion." placement="top-start")
         el-tag.el-tag-net(size="small") Rinkeby
@@ -65,7 +65,7 @@
           el-dropdown-item(@click.native='openLink(issueUrl)'
           v-if='issueUrl && issue.status !== "Closed"') View issue
           el-dropdown-item(@click.native='openLink(contractUrl)'
-          v-if='contractUrl && issue.status !== "Closed"') View bounty contract
+          v-if='issue.status !== "Closed"') View bounty contract
 
     div.card-action-footer.job-status(v-if='user.gitUserName === issue.ownerName && !isFunding') You added this issue
     div.card-action-footer.job-status(v-if='isForking') Currently forking
@@ -75,7 +75,7 @@
       el-dropdown(placement="bottom" size="small" split-button type="primary" @click="submitWork") Submit as pull request
         el-dropdown-menu(slot='dropdown')
           el-dropdown-item(@click.native='cancelWork()'
-          v-if='contractUrl && issue.status !== "Closed"') Cancel contribution
+          v-if='issue.status !== "Closed"') Cancel contribution
           el-dropdown-item(divided @click.native='showGitCommand()'
           v-if='issue.status !== "Closed"') View git commands
           el-dropdown-item(@click.native='openJobBranch(userJob.forkName, userJob.branchUrl)'
@@ -83,18 +83,18 @@
           el-dropdown-item(@click.native='openLink(issueUrl)'
           v-if='issueUrl && issue.status !== "Closed"') View issue
           el-dropdown-item(@click.native='openLink(contractUrl)'
-          v-if='contractUrl && issue.status !== "Closed"') View bounty contract
+          v-if='issue.status !== "Closed"') View bounty contract
 
     <!-- Dev, Pr Sent -->
     div.card-action-footer(v-if="issue.status !== 'Closed' && userJob && userJob.pullRequestId && user.gitUserName !== issue.ownerName")
       el-dropdown(placement="bottom" size="small" split-button type="primary" @click="openPullRequest(userJob.pullRequestNumber)") View Pull Request
         el-dropdown-menu(slot='dropdown')
           el-dropdown-item(@click.native='cancelWork()'
-          v-if='contractUrl && issue.status !== "Closed"') Cancel contribution
+          v-if='issue.status !== "Closed"') Cancel contribution
           el-dropdown-item(divided @click.native='openLink(issueUrl)'
           v-if='issueUrl && issue.status !== "Closed"') View issue
           el-dropdown-item(@click.native='openLink(contractUrl)'
-          v-if='contractUrl && issue.status !== "Closed"') View bounty contract
+          v-if='issue.status !== "Closed"') View bounty contract
 
     div(v-if='issue.status != "Closed" && issue.contractAddress')
       p.tiny-text.dev-count(type='info',v-if='sentJobs && sentJobs.length > 1') {{sentJobs.length}} developers have started work
@@ -141,7 +141,7 @@ export default {
       return this.$etherscanService.getTransactionLink(this.issue.contractNetwork, this.issue.contractDeployTransaction)
     },
     contractUrl () {
-      return this.$etherscanService.getContractLink(this.issue.contractNetwork, this.issue.contractAddress)
+      return 'www.google.com'
     },
     stateColor () {
       if (this.issue.status === 'Created' && !this.issue.contractAddress) return 'warning'
@@ -149,6 +149,7 @@ export default {
       if (this.issue.status === 'Closed') return 'info'
       if (this.issue.status === 'Funded') return 'success'
       if (!this.issue.contractAddress && this.issue.status !== 'Rejected') return 'danger'
+      return 'info'
     },
     userJob () { // returns users job for this issue , will exists if user has started work, should only ever be one record
       return this.jobs
@@ -188,7 +189,7 @@ export default {
       const head = `${this.user.gitUserName}:${this.userJob.branchUrl.split('/')[2]}`
       this.startLoading(`Creating a pull request for ${this.userJob.branchUrl}`)
       try {
-        const { url, id } = await this.$cloudFunction.submitWork(head, this.issue.repositoryName, this.issue.branch, this.issue.id)
+        const { url } = await this.$cloudFunction.submitWork(head, this.issue.repositoryName, this.issue.branch, this.issue.id)
 
         this.stopLoading()
         this.$snack.success({
@@ -280,7 +281,7 @@ export default {
       this.startLoading('Forking the repository if needed and creating a branch ... ')
       await this.$cloudFunction.saveWallet(this.user['.key'], wallet, this.issue.contractNetwork)
       try {
-        const { branchUrl, jobKey } = await this.$cloudFunction.startWork(this.user['.key'], this.issue['.key'])
+        const { branchUrl } = await this.$cloudFunction.startWork(this.user['.key'], this.issue['.key'])
         if (branchUrl) {
           // forked and branching worked
           this.stopLoading()

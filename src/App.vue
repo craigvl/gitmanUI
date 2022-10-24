@@ -1,5 +1,5 @@
 <template lang="pug">
-  #app(v-loading.fullscreen.lock='loading')
+#app(v-loading.fullscreen.lock='loading')
     router-view
 </template>
 

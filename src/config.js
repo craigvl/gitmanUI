@@ -5,4 +5,3 @@ function buildConfig (name) {
 }
 
 export const firebaseConfig = buildConfig('firebaseConfig')
-export const ethereumConfig = buildConfig('ethereumConfig')

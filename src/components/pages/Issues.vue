@@ -1,5 +1,5 @@
 <template lang="pug">
-  section(class='body-section' v-loading.fullscreen.lock='loading || forkingJob' :element-loading-text="forkingJob ? `Forking the repository ${forkingJob.repositoryName} this can take a minute or two` : loadingText")
+section(class='body-section' v-loading.fullscreen.lock='loading || forkingJob' :element-loading-text="forkingJob ? `Forking the repository ${forkingJob.repositoryName} this can take a minute or two` : loadingText")
     AppHeader
 
     div.transition(name='modal')
@@ -104,7 +104,7 @@ export default {
     }
   },
   created () {
-    this.$cloudFunction.fetchEthUSD().then(_ => { this.ethUSD = _ })
+    // this.$cloudFunction.fetchEthUSD().then(_ => { this.ethUSD = _ })
   },
   methods: {
     openGitCommand (issue, job) {

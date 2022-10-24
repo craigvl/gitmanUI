@@ -1,5 +1,5 @@
 <template lang="pug">
-  section.login-container(v-loading.fullscreen.lock='loading')
+section.login-container(v-loading.fullscreen.lock='loading')
 
     div
       .login-container__content
@@ -48,12 +48,7 @@ export default {
       this.$cloudFunction.authExternalUser(this.appKey, this.token).then(result => {
         auth().signInWithCredential()
 
-        auth.signInWithCustomToken(result.gitmanToken).catch(function (error) {
-          // Handle Errors here.
-          var errorCode = error.code
-          var errorMessage = error.message
-          // ...
-        })
+        auth.signInWithCustomToken(result.gitmanToken).catch(function () {})
 
         const credential = githubProvider.credential(result.gitmanToken)
         this.accessToken = credential.accessToken
