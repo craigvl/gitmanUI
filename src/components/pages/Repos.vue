@@ -193,7 +193,9 @@ export default {
     handleError (error) {
       console.error(error.message ? error.message : error)
       this.loading = false
-      this.$snack.danger(error.message ? error.message : error)
+      this.$snack.danger({
+        text: error.message ? error.message : error
+      })
     },
     logout () {
       auth.signOut().then(() => {
@@ -268,7 +270,7 @@ export default {
             text: 'Issue funded',
             button: 'Ok'
           })
-        })
+        }).catch(this.handleError)
       })
     },
     repoUrl (repositoryName) {
